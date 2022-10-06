@@ -87,11 +87,16 @@
     margin: 2vmax;
     transition: all 0.5s;
     padding-bottom: 0.5vmax;
+    overflow: hidden;
     border: 1px solid rgba(15, 15, 15, 0.26);
 }
 
-.productCard>img {
-    width: 14vmax;
+.productCard > img {
+    background-position: center;
+    object-fit: cover;
+    height: 300px;
+    width: 300px;
+
 }
 
 .productCard>div {

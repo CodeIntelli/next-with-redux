@@ -1,5 +1,6 @@
 import React from "react";
 import { Rating } from "@material-ui/lab";
+import style from "../styles/Product.module.css";
 import Link from "next/link";
 
 const ProductCard = ({ products }) => {
@@ -18,16 +19,24 @@ const ProductCard = ({ products }) => {
 
   return (
     <>
-      <div className="productCard" href="home">
+      <div className={style.productCard}>
         <img src={products.images[0].url} alt={products.name} />
-        <p>{products.name}</p>
+        <Link href={`product/${products._id}`}>
+          <p
+            style={{ cursor: "pointer", fontWeight: "bold", fontSize: "20px" }}
+          >
+            {products.name}
+          </p>
+        </Link>
         <div>
           <Rating {...options} />
-          <span className="productCardSpan">({products.numOfReviews}) </span>
+          <span className={style.productCardSpan}>
+            ({products.numOfReviews}){" "}
+          </span>
         </div>
-        <span className="product_price">
+        <span className={style.product_price}>
           ₹{products.price}{" "}
-          <span className="discount_price">₹{discount_price}</span>
+          <span className={style.discount_price}>₹{discount_price}</span>
         </span>
       </div>
     </>

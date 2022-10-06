@@ -3,6 +3,7 @@ import React from "react";
 import styles from "../styles/Product.module.css";
 import { clearErrors, getProduct } from "../redux/Actions/ProductAction";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
 const Home = ({ products, loading }) => {
   // const { loading, error, products } = useSelector(
@@ -29,6 +30,10 @@ const Home = ({ products, loading }) => {
               <button>Scroll</button>
             </a>
           </div>
+          <div suppressHydrationWarning>
+            {process.browser ? "browser" : "server"}
+          </div>
+
           <h2 className={styles.homeHeading}>Featured Product</h2>
           <div className={styles.container} id="container">
             {products &&
@@ -45,25 +50,12 @@ const Home = ({ products, loading }) => {
 export default Home;
 
 export async function getServerSideProps(context) {
-  const dispatch = useDispatch();
-  // Fetch data from external API
-  // const res = await fetch(`https://.../data`);
-  // const data = await res.json();
-
-  try {
-    dispatch({ type: ALL_PRODUCT_REQUEST });
-    let link = `http://localhost:5000/api/v1/product`;
-    const { data } = await axios.get(link);
-    dispatch({ type: ALL_PRODUCT_SUCCESS, payload: data });
-    console.log("redux Implementation", data);
-    return { props: { product: data, error: false, loading: false } };
-  } catch (error) {
-    console.log(error);
-    dispatch({
-      type: ALL_PRODUCT_FAIL,
-      payload: error.response.data.message,
-    });
-    return { props: { data: error.response.data.message, error: true } };
-  }
   // Pass data to the page via props
+  let link = `http://localhost:5000/api/v1/product`;
+  const { data } = await axios.get(link);
+  console.log(
+    "🚀 ~ file: index.js ~ line 53 ~ getServerSideProps ~ data",
+    data
+  );
+  return { props: { products: data.product } };
 }
